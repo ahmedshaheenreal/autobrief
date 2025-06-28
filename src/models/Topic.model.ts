@@ -1,7 +1,7 @@
 import {
   Column,
   Entity,
-  ManyToOne,
+  ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
@@ -16,8 +16,8 @@ export class Topic {
   @Column({ type: "varchar", length: 100, unique: true, nullable: false })
   name: string;
 
-  @ManyToOne(() => UsePreferences, (userpref) => userpref.topics)
-  usePreferences: UsePreferences;
+  @ManyToMany(() => UsePreferences, (userpref) => userpref.topics)
+  usePreferences: UsePreferences[];
 
   @OneToMany(() => Article, (article) => article.id, {
     cascade: true,

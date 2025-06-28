@@ -1,6 +1,7 @@
 import express from "express";
 import AppDataSource from "./db/dbconfig";
 import { signupRouter } from "./Router/signup.route";
+import userPreferencesRouter from "./Router/UserPreference.router";
 const app = express();
 const PORT = 3000;
 
@@ -15,7 +16,9 @@ AppDataSource.initialize()
     console.error("Error during Data Source initialization", err);
   });
 
+//enable routes
 app.use("/api", signupRouter);
+app.use("/api/userpreferences", userPreferencesRouter);
 
 app.get("/", (req, res) => {
   res.send("Hello, World!");

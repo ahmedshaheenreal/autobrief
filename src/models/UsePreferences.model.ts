@@ -1,4 +1,4 @@
-import { Entity, OneToMany } from "typeorm";
+import { Entity, JoinTable, ManyToMany, OneToMany } from "typeorm";
 import { PrimaryGeneratedColumn, Column } from "typeorm";
 import { Topic } from "./Topic.model";
 @Entity()
@@ -6,7 +6,11 @@ export class UsePreferences {
   @PrimaryGeneratedColumn()
   user_id: number;
 
-  @OneToMany(() => Topic, (topic) => topic, { cascade: true, eager: true })
+  @ManyToMany(() => Topic, (topic) => topic.usePreferences, {
+    cascade: true,
+    eager: true,
+  })
+  @JoinTable()
   topics: Topic[];
 
   @Column()

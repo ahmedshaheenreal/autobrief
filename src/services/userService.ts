@@ -33,3 +33,5 @@ export const validateTimezone = (timezone: string): boolean => {
     return false;
   }
 };
+
+export const choosePreferences = async (preferences: string[]) => {};
