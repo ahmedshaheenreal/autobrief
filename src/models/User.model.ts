@@ -1,5 +1,13 @@
-import { Entity, Column, OneToMany, ManyToMany } from "typeorm";
+import {
+  Entity,
+  Column,
+  OneToMany,
+  ManyToMany,
+  OneToOne,
+  JoinColumn,
+} from "typeorm";
 import { Digest } from "./Digests.model";
+import { UsePreferences } from "./UsePreferences.model";
 
 @Entity()
 export class User {
@@ -23,4 +31,8 @@ export class User {
 
   @ManyToMany(() => Digest, (digest) => digest.users)
   digests: Digest[];
+
+  @OneToOne((type) => UsePreferences)
+  @JoinColumn()
+  details: UsePreferences;
 }

@@ -15,11 +15,13 @@ export const authMiddleware = (
   }
 
   const token: string = authHeader.split(" ")[1];
+  const data: any = validateToken(token);
 
-  if (validateToken(token) === null) {
+  if (data === null) {
     res.status(401).json({ message: "Unauthorized: Invalid token" });
     return;
   }
-
+  req.body = req.body || {};
+  req.body.userEmail = data.email as string;
   next();
 };
