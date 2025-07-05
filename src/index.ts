@@ -2,6 +2,8 @@ import express from "express";
 import AppDataSource from "./db/dbconfig";
 import { signupRouter } from "./Router/signup.route";
 import userPreferencesRouter from "./Router/UserPreference.router";
+import { summarizeAll } from "./services/summarizeNews";
+import { fetchArticle } from "./utils/FetchNews";
 const app = express();
 const PORT = 3000;
 
@@ -11,6 +13,8 @@ app.use(express.urlencoded({ extended: true }));
 AppDataSource.initialize()
   .then(() => {
     console.log("Data Source has been initialized!");
+    console.log(summarizeAll());
+    // fetchArticle("sports");
   })
   .catch((err) => {
     console.error("Error during Data Source initialization", err);
