@@ -21,4 +21,7 @@ export class UsePreferences {
 
   @Column()
   delivery_method: "email" | "webhook";
+
+  @Column()
+  topic_String: string;
 }

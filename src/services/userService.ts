@@ -51,7 +51,7 @@ export const choosePreferences = async (
     topics.push(existingPreference);
   }
   const newPreferences: UsePreferences = usePreferencesRepo.create({
-    topics: topics,
+    topics: topics.sort(), // Sort topics alphabetically
     delivery_time: "08:00", // Default time, can be customized
     delivery_frequency: "daily", // Default frequency, can be customized
     delivery_method: "email", // Default method, can be customized

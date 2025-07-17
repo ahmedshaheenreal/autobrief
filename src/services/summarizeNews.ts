@@ -1,36 +1,8 @@
 import { config } from "dotenv";
-import { OpenAI } from "openai";
 import { fetchArticle } from "../utils/FetchNews";
 import { NEWS_TOPICS_ARRAY } from "../CONSANSTS/generalConstant";
-import { CohereClient } from "cohere-ai";
-
-// const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 config(); // Load .env
-// async function summarizeArticle(title: string, content: string) {
-//   const prompt = `Summarize this news article in 3-4 sentences:\n\nTitle: ${title}\n\nContent: ${content}, please make the output as 1 summary per category, and I want it in a json object the key is category, the value is the title category and summery, please make the response include just the JSOn without any additions before or after so i can parse it, stick to the categories i've given u
-//   `;
-//   // const response = await openai.chat.completions.create({
-//   //   model: "gpt-4",
-//   //   messages: [{ role: "user", content: prompt }],
-//   //   temperature: 0.7,
-//   // });
-
-//   // return response.choices[0].message.content?.trim();
-
-//   const cohere = new CohereClient({
-//     token: process.env.COHERE_API_KEY!,
-//   });
-
-//   const response = await cohere.generate({
-//     model: "command",
-//     prompt,
-//     maxTokens: 300,
-//     temperature: 0.25,
-//   });
-//   console.log("THis is the response:---", response.generations[0].text);
-//   return response.generations[0].text.trim();
-// }
 
 import fetch from "node-fetch";
 
