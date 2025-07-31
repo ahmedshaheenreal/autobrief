@@ -1,4 +1,10 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  CreateDateColumn,
+} from "typeorm";
 import { Topic } from "./Topic.model";
 
 @Entity()
@@ -23,4 +29,7 @@ export class Article {
 
   @Column({ type: "timestamp", nullable: false })
   published_at!: Date;
+
+  @CreateDateColumn()
+  createdAt: Date;
 }

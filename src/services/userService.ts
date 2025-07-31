@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import AppDataSource from "../db/dbconfig";
 import { UsePreferences } from "../models/UsePreferences.model";
 import { Topic } from "../models/Topic.model";
+import { SEPARATOR } from "../CONSANSTS/generalConstant";
 const usersRepo = AppDataSource.getRepository("User");
 
 export const addNewUserToDatabase = async (user: NewUser): Promise<void> => {
@@ -51,16 +52,19 @@ export const choosePreferences = async (
     topics.push(existingPreference);
   }
   const newPreferences: UsePreferences = usePreferencesRepo.create({
-    topics: topics.sort(), // Sort topics alphabetically
+    topics: topics, // Sort topics alphabetically
     delivery_time: "08:00", // Default time, can be customized
     delivery_frequency: "daily", // Default frequency, can be customized
-    delivery_method: "email", // Default method, can be customized
+    delivery_method: "email",
+    topic_String: topics.sort().join(SEPARATOR), //this will help with Reducing the load on database, because every digest will rely on this string
+    //so that we avoid repeatedly querying the database for topics
+    // Default method, can be customized
   });
   const savedPreferences = await usePreferencesRepo.save(newPreferences);
 
   const user = await usersRepo.findOne({ where: { email } });
   user.details = newPreferences;
-  console.log("user", user);
+
   // Save the new preferences to the database
   await usersRepo.save(user);
 };

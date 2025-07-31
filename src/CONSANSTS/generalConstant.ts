@@ -17,3 +17,5 @@ export const NEWS_TOPICS_ARRAY: string[] = [
   "technology",
 ];
 export const NEWS_TOPICS_SET: Set<string> = new Set(NEWS_TOPICS_ARRAY);
+
+export const SEPARATOR = "*#$#$*";

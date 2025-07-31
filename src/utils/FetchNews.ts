@@ -20,6 +20,8 @@ export async function fetchArticle(category: string) {
   const article = response.data.articles[0];
   return {
     title: article.title,
+    article_url: article.url,
+    article_source: article.source.name,
     content:
       article.summary ||
       article.excerpt ||

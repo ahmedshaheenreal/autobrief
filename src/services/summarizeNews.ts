@@ -5,6 +5,7 @@ import { NEWS_TOPICS_ARRAY } from "../CONSANSTS/generalConstant";
 config(); // Load .env
 
 import fetch from "node-fetch";
+import AppDataSource from "../db/dbconfig";
 
 async function summarizeArticle(title: string, content: string) {
   const articleText = content;
@@ -30,17 +31,23 @@ export async function summarizeAll() {
     try {
       const article = await fetchArticle(category);
       const summary = await summarizeArticle(article.title, article.content);
-      const formattedSummary = `
-  <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
-    <h2>🗂️ Category: <span style="color:#0056b3;">${category}</span></h2>
-    <h3>📰 ${article.title}</h3>
-    <p><strong>📝 Summary:</strong><br>${summary}</p>
-    <hr style="margin: 20px 0; border: none; border-top: 1px solid #ddd;">
-  </div>
-`;
+
       console.log(
         `\n🗂️ Category: ${category}\n📰 Title: ${article.title}\n📝 Summary:\n${summary}`
       );
+
+      //Save articles in database
+      const articleRepo = AppDataSource.getRepository("Article");
+
+      const newArticle = articleRepo.create({
+        title: article.title,
+        summary: summary,
+        article_url: article.article_url,
+        content: article.content,
+        topic: { name: category }, // Assuming Topic model has a name field
+        source: article.article_source,
+      });
+      await articleRepo.save(newArticle);
     } catch (err) {
       console.error(`Error processing category "${category}":`, err.message);
     }

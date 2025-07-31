@@ -4,6 +4,7 @@ import { signupRouter } from "./Router/signup.route";
 import userPreferencesRouter from "./Router/UserPreference.router";
 import { summarizeAll } from "./services/summarizeNews";
 import { fetchArticle } from "./utils/FetchNews";
+import { sendEmail } from "./services/notifyEmailService";
 const app = express();
 const PORT = 3000;
 
@@ -15,6 +16,12 @@ AppDataSource.initialize()
     console.log("Data Source has been initialized!");
     console.log(summarizeAll());
     // fetchArticle("sports");
+
+    // sendEmail(
+    //   "ahmedshaheenwork@gmail.com",
+    //   "HI",
+    //   "<h1>Welcome to our service!</h1>"
+    // );
   })
   .catch((err) => {
     console.error("Error during Data Source initialization", err);

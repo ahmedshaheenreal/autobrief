@@ -57,6 +57,12 @@ export class Digest {
   })
   delivery_status: DeliveryStatus;
 
+  @Column()
+  digest_content: string;
+
+  @Column()
+  digestString: string;
+
   @CreateDateColumn()
   created_at: Date;
 
