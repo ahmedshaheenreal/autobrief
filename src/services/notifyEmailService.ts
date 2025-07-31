@@ -12,14 +12,14 @@ export const transporter = nodemailer.createTransport({
   service: "gmail",
   port: 587,
   auth: {
-    user: "shahhhen10@gmail.com", // your Gmail address
-    pass: "esxa huix dfyv nvga", // your Gmail app password
+    user: process.env.SENDERMAIL, // your Gmail address
+    pass: process.env.SENDERPASS, // your Gmail app password
   },
 });
 const digestMap = {};
 export const sendEmail = async (to: string, subject: string, html: string) => {
   const info = await transporter.sendMail({
-    from: `"AutoBrief" <shahhhen10@gmail.com>`, // sender address
+    from: `"AutoBrief" <${process.env.SENDERMAIL}>`, // sender address
     to,
     subject,
     html,
