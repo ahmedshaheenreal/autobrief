@@ -1,7 +1,6 @@
 import {
   Entity,
   Column,
-  OneToMany,
   ManyToMany,
   OneToOne,
   JoinColumn,
@@ -12,13 +11,13 @@ import { UsePreferences } from "./UsePreferences.model";
 @Entity()
 export class User {
   @Column({ primary: true, generated: true })
-  id: number;
+  id!: number;
 
   @Column({ type: "varchar", length: 100, unique: true, nullable: false })
-  email: string;
+  email!: string;
 
   @Column({ type: "varchar" })
-  password: string;
+  password!: string;
 
   @Column({ type: "varchar", length: 50, nullable: false })
   firstName?: string;
@@ -30,9 +29,9 @@ export class User {
   timezone?: string;
 
   @ManyToMany(() => Digest, (digest) => digest.users)
-  digests: Digest[];
+  digests!: Digest[];
 
-  @OneToOne((type) => UsePreferences)
+  @OneToOne(() => UsePreferences)
   @JoinColumn()
-  details: UsePreferences;
+  details!: UsePreferences | null;
 }

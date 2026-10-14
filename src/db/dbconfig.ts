@@ -1,20 +1,20 @@
 import { DataSource } from "typeorm";
-import dotenv from "dotenv";
+import { config } from "../config/env";
 import { User } from "../models/User.model";
 import { Article } from "../models/Article.model";
 import { Digest } from "../models/Digests.model";
 import { Topic } from "../models/Topic.model";
 import { UsePreferences } from "../models/UsePreferences.model";
-dotenv.config();
+
 const AppDataSource = new DataSource({
   type: "mysql",
-  host: process.env.DB_HOST || "localhost",
-  port: process.env.DB_PORT ? parseInt(process.env.DB_PORT) : 3306,
-  username: process.env.DB_USER || "",
-  password: process.env.DB_PASSWORD || "1234",
-  database: process.env.DB_NAME || "",
+  host: config.db.host,
+  port: config.db.port,
+  username: config.db.username,
+  password: config.db.password,
+  database: config.db.database,
   entities: [User, Article, Digest, Topic, UsePreferences],
-  synchronize: true, // Set to false in production
-  logging: false, // Set to true for debugging
+  synchronize: config.db.synchronize,
+  logging: false,
 });
 export default AppDataSource;

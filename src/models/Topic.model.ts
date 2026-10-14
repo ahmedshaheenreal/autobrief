@@ -11,29 +11,25 @@ import { Article } from "./Article.model";
 @Entity()
 export class Topic {
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
 
   @Column({ type: "varchar", length: 100, unique: true, nullable: false })
-  name: string;
+  name!: string;
 
   @ManyToMany(() => UsePreferences, (userpref) => userpref.topics)
-  usePreferences: UsePreferences[];
+  usePreferences!: UsePreferences[];
 
-  @OneToMany(() => Article, (article) => article.id, {
-    cascade: true,
-  })
-  article_ids: number[];
+  @OneToMany(() => Article, (article) => article.topic)
+  articles!: Article[];
 
   @Column({
     type: "timestamp",
     default: () => "CURRENT_TIMESTAMP",
   })
-  createdAt: Date;
+  createdAt!: Date;
   @Column({
     type: "timestamp",
     default: () => "CURRENT_TIMESTAMP",
   })
-  updatedAt: Date;
-
-  // Add any additional properties or methods as needed
+  updatedAt!: Date;
 }

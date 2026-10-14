@@ -21,7 +21,7 @@ export class Article {
   @Column({ type: "varchar", nullable: false, unique: true })
   url!: string;
 
-  @ManyToOne(() => Topic, (topic) => topic)
+  @ManyToOne(() => Topic, (topic) => topic.articles)
   topic!: Topic;
 
   @Column({ type: "varchar", nullable: false })
@@ -31,5 +31,5 @@ export class Article {
   published_at!: Date;
 
   @CreateDateColumn()
-  createdAt: Date;
+  createdAt!: Date;
 }

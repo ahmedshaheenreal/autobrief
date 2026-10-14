@@ -1,40 +1,24 @@
-import express from "express";
+import { config } from "./config/env";
 import AppDataSource from "./db/dbconfig";
-import { signupRouter } from "./Router/signup.route";
-import userPreferencesRouter from "./Router/UserPreference.router";
-import { summarizeAll } from "./services/summarizeNews";
-import { fetchArticle } from "./utils/FetchNews";
-import { sendEmail } from "./services/notifyEmailService";
-const app = express();
-const PORT = 3000;
+import { createApp } from "./app";
+import { runDailyPipeline } from "./services/pipeline";
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+async function main() {
+  await AppDataSource.initialize();
+  console.log("Data Source has been initialized!");
 
-AppDataSource.initialize()
-  .then(() => {
-    console.log("Data Source has been initialized!");
-    console.log(summarizeAll());
-    // fetchArticle("sports");
+  if (config.runPipelineOnStart) {
+    runDailyPipeline()
+      .then((result) => console.log("Daily pipeline finished:", result))
+      .catch((err) => console.error("Daily pipeline failed:", err));
+  }
 
-    // sendEmail(
-    //   "ahmedshaheenwork@gmail.com",
-    //   "HI",
-    //   "<h1>Welcome to our service!</h1>"
-    // );
-  })
-  .catch((err) => {
-    console.error("Error during Data Source initialization", err);
+  createApp().listen(config.port, () => {
+    console.log(`Server is running on http://localhost:${config.port}`);
   });
+}
 
-//enable routes
-app.use("/api", signupRouter);
-app.use("/api/userpreferences", userPreferencesRouter);
-
-app.get("/", (req, res) => {
-  res.send("Hello, World!");
-});
-
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+main().catch((err) => {
+  console.error("Failed to start server:", err);
+  process.exit(1);
 });

@@ -19,7 +19,7 @@ export enum DeliveryStatus {
 @Entity("digest")
 export class Digest {
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
   @ManyToMany(() => User, (user) => user.digests, {
     onDelete: "CASCADE",
   })
@@ -34,10 +34,10 @@ export class Digest {
       referencedColumnName: "id",
     },
   })
-  users: User[];
+  users!: User[];
 
   @Column({ type: "date" })
-  date: string;
+  date!: string;
 
   @ManyToMany(() => Article)
   @JoinTable({
@@ -45,27 +45,27 @@ export class Digest {
     joinColumn: { name: "digest_id", referencedColumnName: "id" },
     inverseJoinColumn: { name: "article_id", referencedColumnName: "id" },
   })
-  articles: Article[];
+  articles!: Article[];
 
   @Column({ type: "timestamp", nullable: true })
-  delivered_at: Date | null;
+  delivered_at!: Date | null;
 
   @Column({
     type: "enum",
     enum: DeliveryStatus,
     default: DeliveryStatus.PENDING,
   })
-  delivery_status: DeliveryStatus;
+  delivery_status!: DeliveryStatus;
+
+  @Column({ type: "text" })
+  digest_content!: string;
 
   @Column()
-  digest_content: string;
-
-  @Column()
-  digestString: string;
+  digestString!: string;
 
   @CreateDateColumn()
-  created_at: Date;
+  created_at!: Date;
 
   @UpdateDateColumn()
-  updated_at: Date;
+  updated_at!: Date;
 }
